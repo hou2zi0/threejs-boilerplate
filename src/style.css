@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Poller+One&family=Staatliches&display=swap');
+
+*
+{
+    margin: 0;
+    padding: 0;
+    
+}
+
+html,
+body
+{
+   
+    font-family: 'Poppins';
+    background: bisque;
+}
+
+.webgl
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    outline: none;
+    mix-blend-mode: color-burn;
+}
+
+
+
+
+h1 {
+    font-size: 20rem;
+    text-transform: uppercase;
+    color: whitesmoke;
+    text-align: center;
+    border-bottom: 5px solid whitesmoke;
+    margin-bottom: .01em;
+}
+
+h2 {
+    font-size: 5.1rem;
+    text-transform: uppercase;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.container {
+    height: 100vh;
+    display: grid;
+    place-items: center;
+}
+
+.anton {
+    font-family: 'Anton', sans-serif;
+}
+
+.poller {
+    font-family: 'Poller One', cursive;
+}
+
+.staatliches {
+    font-family: 'Staatliches', cursive;
+}
+
+section {
+    height: 100vh;
+    width: 80vh;
+    margin: auto;
+}
+
+section p {
+    font-size: 3rem;
+    text-transform: uppercase;
+    color: white;
+    hyphens: auto;
+    
+}
