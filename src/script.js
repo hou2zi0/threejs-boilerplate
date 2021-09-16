@@ -3,6 +3,16 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 
+/*
+ENGLISH
+Basic imports can be seen above. The Three.js base class does not import everything one might need, but 
+provides the most basic functionalities. Further functionalitiy is imported via a modularized system. 
+
+DEUTSCH 
+Oben sieht man die grundständigen Importe. Die Three.js-Basis-Klasse importiert nicht alle alle Funktionalitäten, 
+die man jemals brauchen könnten, sondern bringt die grundlegenden Funktionalitäten mit. Darüber hinausgehende
+Funktionalität kann über ein modularisiertes System von Importen hinzugefügt werden.   
+*/
 
 // Settings
 
@@ -12,14 +22,59 @@ const SETTINGS = {
 }
 
 // Debug GUI
+/* 
+ENGLISH
+The debug gui enables us to show and manipulate objects and there attributes on the frontend. 
+Instanciated objects and their respective attributes have to be added to specific folders of the GUI object
+in order to be shown and usable on the frontend. Examples on how to achieve this are given below. 
+
+DEUTSCH 
+Die Debug-GUI bietet uns die Möglichkeit instanziierte Objekte und ihre Attribute bzw. Eigenschaften im Frontend 
+anzuzeigen und dort zu manipulieren. Damit Objekte und Attribute im Frontend angezeigt werden, müssen sie 
+Sektionen ("folder") der GUI zugewiesen werden. Beispiele, wie das genau funktioniert, folgen weiter unten. 
+*/
+
+/*
+Instanciates the debug gui object.
+Instanziiert das Debug-GUI-Objekt.
+*/
 const gui = new dat.GUI()
 
-// Texture loading
-// den Loader instanziieren
+/*
+Texture loading
+Laden von Texturen
+*/
+/* 
+ENGLISH
+Textures are someting like clothing for 3D objects. In order to show the 3D objects with their clothing,
+one has to load the textures first. The texture files are just normal image files, mostly .jpg or .png files.
+Depending on the textures intended use the pixel data within the files varies. Some textures need graxscale data, 
+others depend on RGB color data.
+The basic workflow for all textures looks like this:
+1. Put the image files, where they can be found, e.g. a static files folder or a CDN.
+2. Instantiate a texture loader.
+3. Load the image files via a texture loader.
+4. Resize, rescale or offset the textures in order to fit the object better.
+
+DEUTSCH
+Texturen sind so etwas wie Kleidung für 3D-Objekte. Um die 3D-Objekte mit ihrer Kleidung darstellen zu können,
+muss man zuerst die Texturen laden. Die Texturdateien sind ganz normale Bilddateien, meist .jpg oder .png Dateien.
+Je nach Verwendungszweck der Texturen variieren die Pixeldaten in den Dateien. Einige Texturen benötigen Graustufen-Daten, 
+andere sind auf RGB-Farb-Daten angewiesen.
+Der grundlegende Arbeitsablauf für alle Texturen sieht wie folgt aus:
+1. Lege die Bilddateien dort ab, wo sie gefunden werden können, z.B. in einem Ordner für statische Dateien oder über ein CDN.
+2. Instanziiere einen Texturlader.
+3. Lade die Bilddateien über einen Texturlader.
+4. Ändere die Größe, Skalierung oder den Versatz der Texturen, um sie besser an das Objekt anzupassen.
+*/
+
+// 1. Folder for texture / Texturenordner: "./textures"
+// 2. Instantiate texture loader / Texturlader instanziieren:
 const textureloader = new THREE.TextureLoader();
-// Basis-Textur
+// 3. Load the texture / lade die Textur: 
+// Base texture / Basis-Textur
 const baseTexture = textureloader.load('./textures/hammered_metal/Metal_Hammered_004_basecolor.jpg');
-// Scaling
+// 4. Scaling the texture / Skalieren der Textur:
 baseTexture.wrapS = baseTexture.wrapT = THREE.RepeatWrapping;
 baseTexture.repeat.set( 2, 2 );
 // Normal/Bump-Texture
@@ -40,20 +95,69 @@ displacementTexture.wrapS = displacementTexture.wrapT = THREE.RepeatWrapping;
 displacementTexture.repeat.set( 2, 2 );
 
 // Canvas
+/*
+ENGLISH
+Three.js works on the browser's canvas element. So in order to have an area where the 3D objects are displayed, 
+Three.js needs to know where it can find a suitable canvas element in its corresponding HTML file. 
+
+DEUTSCH
+Three.js arbeitet mit dem Canvas-Element des Browsers. Um also einen Bereich zu haben, in dem die 3D-Objekte angezeigt werden, 
+muss Three.js wissen, wo es in der entsprechenden HTML-Datei ein geeignetes Canvas-Element finden kann.  
+*/
 const canvas = document.querySelector('canvas.webgl')
 
 // Scene
+/*
+ENGLISH
+All Three.js objects (3D models, cameras, lights, …) live in a scene object. The scene is similar to a folder or 
+to the HTML document. So Three.js needs at least one scene object to hold all the other things. 
+
+DEUTSCH  
+Alle Three.js-Objekte (3D-Modelle, Kameras, Lichter, ...) befinden sich in einem Szenenobjekt. Die Szene ist vergleichbar mit einem Ordner oder 
+mit dem HTML-Dokument. Three.js braucht also mindestens ein Szenenobjekt, um all die anderen Dinge zu kapseln.
+*/
 const scene = new THREE.Scene()
 
-//3D-Objekte
-// 1. Geometrie erstellen
-// 2. Material ("Textur") erstellen
-// 3. Geometrie und Material in einem Mesh kombinieren, so dass das eigentliche 3D-Objekt entsteht.
-// 4. Das Objekt zur Szene hinzufügen, um es anzuzeigen.
+/*
+3D objects
+3D-Objekte
+*/
 
-// 1. Geometrie
+/*
+ENGLISH
+1. create a geometry
+2. create a material
+3. combine geometry and material in a mesh to create the actual 3D object.
+4. add the object to the scene to display it.
+
+DEUTSCH 
+1. Geometrie erstellen
+2. Material erstellen
+3. Geometrie und Material in einem Mesh kombinieren, so dass das eigentliche 3D-Objekt entsteht.
+4. Das Objekt zur Szene hinzufügen, um es anzuzeigen.
+*/
+
+// 1. Geometry / Geometrie
+/*
+ENGLISH
+There are a number of predefined primitive classes available. Each class needs slightly different 
+arguments for their respective constructor. See the documentation for further info on the 
+primitives.
+
+DEUTSCH
+Es gibt eine Reihe von vordefinierten primitiven Klassen. Jede Klasse benötigt leicht unterschiedliche 
+Argumente für ihren jeweiligen Konstruktor. Siehe die Dokumentation für weitere Informationen über die 
+Primitive.
+*/
 const geometry = {
-    box: new THREE.BoxGeometry( 1, 1, 1 ),
+    box: new THREE.BoxGeometry( 
+        1, // width / Breite
+        1, // height / Höhe
+        1, // depth / Tiefe
+        1, // width segemnts / Anzahl der Segmente der Breite
+        1, // height segments / Anzahl der Segmente der Höhe
+        1  // depth segments / Anzahl der Segmente der Tiefe
+        ),
     torusknot: new THREE.TorusKnotGeometry( .5, .3, 40, 40 ),
     torus: new THREE.TorusGeometry( .5, .3, 10, 10 ),
     ring: new THREE.RingGeometry(.2, .7, 5, 4, 0, 3.2),
@@ -65,15 +169,67 @@ const geometry = {
     cone: new THREE.ConeGeometry( .5, 1, 10 ),
     circle: new THREE.CircleGeometry( .5, 32 ),
     sphere: new THREE.SphereBufferGeometry( .5, 128, 128 )
-}.sphere;
+}
+.sphere; // "sphere" is chosen as value for the variable geometry / "sphere" wird als Wert für die variable Geometrie gewählt
 
 
 
-// 2. Materials
-// Materialien
-// + MeshStandardMaterial
-// + MeshBasicMaterial
+// 2. Materials / Material
+/*
+ENGLISH
+Materials are responsible for how the geometry looks, how textures are applied to it, and how 
+it interacts with a light source. These are the most common materials for beginners (check the
+documentation for all the other materials available and this page https://threejsfundamentals.org/threejs/lessons/threejs-materials.html):
+* MeshBasicMaterial is not affected by lights.
+* MeshDepthMaterial shows the distance to the camera.
+* MeshLambertMaterial is affected only at the vertices.
+* MeshPhongMaterial is affected at every pixel and supports highlights.
+* MeshStandardMaterial is very similar to phong.
+* MeshToonMaterial uses a gradient map to give ot a flat, cartoonish look.
 
+The most useful material for beginners is the standard material.
+The standard material has different attributes that may be set to change how it's 
+displayed. 
+* color sets the base color of the object
+* map applies a base texture
+* roughness sets how matt or glossy the object is
+* roughnessMap sets the roughness value based on pixel data
+* metalness sets how shiny or metal like the object is
+* metalnessMap sets the metalness value based on pixel data
+* wireframe when set to true, the object is shown as wire frame
+* emissive sets the color with which the object glows
+* emissiveIntensity sets the glows intensity
+* normalMap sets a normal texture which applies pre calculated shadow areas
+* displacementMap displaces the objects vertices based on pixel data
+* displacementScale sets the force of the displacement
+
+DEUTSCH 
+Materialien sind dafür verantwortlich, wie die Geometrie aussieht, wie Texturen auf sie angewendet werden und wie 
+sie mit einer Lichtquelle interagiert. Dies hier sind die gängigsten Materialien für Anfänger (siehe die
+Dokumentation für alle anderen verfügbaren Materialien und diese Seite https://threejsfundamentals.org/threejs/lessons/threejs-materials.html):
+* MeshBasicMaterial wird nicht von Lichtern beeinflusst.
+* MeshDepthMaterial zeigt den Abstand zur Kamera an.
+* MeshLambertMaterial wird nur an den Scheitelpunkten beeinflusst.
+* MeshPhongMaterial wird an jedem Pixel beeinflusst und unterstützt Glanzlichter.
+* MeshStandardMaterial ist dem Phong-Material sehr ähnlich.
+* MeshToonMaterial verwendet eine Gradient Map, um ein flaches, cartoonhaftes Aussehen zu erzielen.
+
+Das nützlichste Material für Anfänger ist das Standardmaterial.
+Das Standardmaterial hat verschiedene Attribute, die eingestellt werden können, um seine Darstellung zu ändern. 
+dargestellt wird. 
+* color legt die Grundfarbe des Objekts fest
+* map wendet eine Grundtextur an
+* roughness legt fest, wie matt oder glänzend das Objekt ist
+* roughnessMap legt den Rauheitswert auf der Grundlage von Pixeldaten fest
+* metalness legt fest, wie glänzend oder metallisch das Objekt ist
+* metalnessMap setzt den Wert für metalness auf der Grundlage von Pixeldaten
+* wireframe wenn auf true gesetzt, wird das Objekt als Drahtgitter dargestellt
+* emissive legt die Farbe fest, mit der das Objekt leuchtet
+* emissiveIntensity legt die Intensität des Leuchtens fest
+* normalMap legt eine normale Textur fest, die vorberechnete Schattenbereiche anlegt
+* displacementMap verschiebt die Eckpunkte des Objekts basierend auf den Pixeldaten
+* displacementScale legt die Stärke der Verschiebung fest
+*/
 const material = new THREE.MeshStandardMaterial( {
     color: 0xd2aa6d,
     map: baseTexture,
@@ -90,13 +246,39 @@ const material = new THREE.MeshStandardMaterial( {
 });
 
 
-// 3. Mesh 
+// 3. Mesh / Mesh
+/*
+ENGLISH
+A 3D object in Three.js is composed of a geometry, that defines the objects shape, and of a material,
+that defines how the structure of the object looks and is affected by lights. In order to show a 3D
+object on the screen, both – geometry and material – have to be combined as a mesh, which then 
+represents the 3D object as such. 
+So in order to create a new 3D object, geometry and material are supplied to the THREE.Mesh class. 
+This class combines geometry and material and instantiates a new 3D object object. This allows reuse of 
+geometries and materials.
+
+DEUTSCH
+Ein 3D-Objekt in Three.js besteht aus einer Geometrie, die die Form des Objekts definiert, und aus einem Material,
+das definiert, wie die Struktur des Objekts aussieht und von Lichtern beeinflusst wird. Um ein 3D
+Objekt auf dem Bildschirm darzustellen, müssen beide – Geometrie und Material – zu einem Mesh kombiniert werden, das dann 
+das 3D-Objekt als solches darstellt. 
+Um also ein neues 3D-Objekt zu erstellen, werden Geometrie und Material an die Klasse THREE.Mesh übergeben. 
+Diese Klasse kombiniert Geometrie und Material und instanziiert ein neues 3D-Objekt. Dies ermöglicht die Wiederverwendung von 
+Geometrien und Materialien.
+*/
 const object = new THREE.Mesh( geometry, material );
 
 // Set further attributes on object
 object.name = "Planet";
 
 // 4. Zur Szene hinzufügen
+/*
+ENGLISH
+In order to be visible on the canvas, the newly instantiated mesh object has to be added to the current scene object.
+
+DEUTSCH 
+Um auf der Leinwand sichtbar zu sein, muss das neu instanziierte Mesh-Objekt dem aktuellen Szenenobjekt hinzugefügt werden.
+*/
 scene.add( object );
 
 // Helper Geometries
