@@ -16,6 +16,11 @@ Based on the boilerplate by [https://github.com/designcourse](https://github.com
 ### Introduction
 
 * [Getting Started with THREE.JS in 2021! by DesignCourse](https://www.youtube.com/watch?v=pUgWfqWZWmM)
+* [Learn Three.js while building a 3D game with physics](https://www.youtube.com/watch?v=hBiGFpBle7E) – at least the first part
+
+### Materials explained
+
+* [Threejsfundamentals: Materials](https://threejsfundamentals.org/threejs/lessons/threejs-materials.html)
 
 ### Texture maps
 
@@ -44,10 +49,20 @@ Based on the boilerplate by [https://github.com/designcourse](https://github.com
 
 ## Libraries
 
+### Wrapper libraries fpor Three.js
+
 * [enabled3d](https://enable3d.io/) "The project enable3d offers 4 different ways. As a Standalone 3D Framework, a Physics Plugin for three.js, as a 3D Objects and Physics extension for Phaser or as a library to run Ammo.js on Node.js."
     * [Enable3D - Javascript 3D engine with physics](https://www.youtube.com/watch?v=j6nv3JIAFLk)
-    * [Learn Three.js while building a 3D game with physics](https://www.youtube.com/watch?v=hBiGFpBle7E)
+        * [Example Code](https://github.com/tamani-coding/enable3d-physics-examples)
+* [aframe](https://aframe.io/docs/1.2.0/introduction/) "a-Frame is a web framework for building virtual reality (VR) experiences. A-Frame is based on top of HTML, making it simple to get started. But A-Frame is not just a 3D scene graph or a markup language; the core is a powerful entity-component framework that provides a declarative, extensible, and composable structure to three.js."
+
+### Physics
+
 * [ammo.js physics engine](https://github.com/kripken/ammo.js)
+    * See links at enabled3d above as well. 
+
+### Particle systems
+
 * [three-nebula particle system](https://github.com/creativelifeform/three-nebula)
     * [Intro to JavaScript 3D Physics using Ammo.js and Three.js by Blue Magnificent (2019)](https://medium.com/@bluemagnificent/intro-to-javascript-3d-physics-using-ammo-js-and-three-js-dd48df81f591)
 
