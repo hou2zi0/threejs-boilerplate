@@ -18,24 +18,24 @@ const gui = new dat.GUI()
 // den Loader instanziieren
 const textureloader = new THREE.TextureLoader();
 // Basis-Textur
-const baseTexture = textureloader.load('/textures/hammered_metal/Metal_Hammered_004_basecolor.jpg');
+const baseTexture = textureloader.load('./textures/hammered_metal/Metal_Hammered_004_basecolor.jpg');
 // Scaling
 baseTexture.wrapS = baseTexture.wrapT = THREE.RepeatWrapping;
 baseTexture.repeat.set( 2, 2 );
 // Normal/Bump-Texture
-const normalTexture = textureloader.load('/textures/hammered_metal/Metal_Hammered_004_normal.jpg');
+const normalTexture = textureloader.load('./textures/hammered_metal/Metal_Hammered_004_normal.jpg');
 normalTexture.wrapS = normalTexture.wrapT = THREE.RepeatWrapping;
 normalTexture.repeat.set( 2, 2 );
 // Metall-Textur
-const metallicTexture = textureloader.load('/textures/hammered_metal/Metal_Hammered_004_metallic.jpg');
+const metallicTexture = textureloader.load('./textures/hammered_metal/Metal_Hammered_004_metallic.jpg');
 metallicTexture.wrapS = metallicTexture.wrapT = THREE.RepeatWrapping;
 metallicTexture.repeat.set( 2, 2 );
 // Rauheits-Textur
-const roughnessTexture = textureloader.load('/textures/hammered_metal/Metal_Hammered_004_roughness.jpg');
+const roughnessTexture = textureloader.load('./textures/hammered_metal/Metal_Hammered_004_roughness.jpg');
 roughnessTexture.wrapS = roughnessTexture.wrapT = THREE.RepeatWrapping;
 roughnessTexture.repeat.set( 2, 2 );
 // Displacement/Verformungs-Textur
-const displacementTexture = textureloader.load('/textures/hammered_metal/Metal_Hammered_004_height.png');
+const displacementTexture = textureloader.load('./textures/hammered_metal/Metal_Hammered_004_height.png');
 displacementTexture.wrapS = displacementTexture.wrapT = THREE.RepeatWrapping;
 displacementTexture.repeat.set( 2, 2 );
 
