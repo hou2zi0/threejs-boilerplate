@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 
+
 // Settings
 
 const SETTINGS = {
@@ -91,6 +92,9 @@ const material = new THREE.MeshStandardMaterial( {
 
 // 3. Mesh 
 const object = new THREE.Mesh( geometry, material );
+
+// Set further attributes on object
+object.name = "Planet";
 
 // 4. Zur Szene hinzufügen
 scene.add( object );
@@ -209,24 +213,87 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 /**
  * Animate
  */
+
+
 // Mouse interaction
 const mousemove = {
     mouseX: 0,
     mouseY: 0,
+    normalizedMouse: {
+        x: 0,
+        y: 0
+    },
     targetX: 0,
     targetY: 0,
     windowHalfX: window.innerWidth / 2,
     windowHalfY: window.innerHeight / 2, 
 };
+
 document.addEventListener('mousemove', (e) => {
     mousemove.mouseX = (e.clientX - mousemove.windowHalfX);
     mousemove.mouseY = (e.clientY - mousemove.windowHalfY);
+    // der Raycaster benötigt ein normalisiertes Koordinatensystem auf Basis 
+    // der Bildschrimkoordinaten des Mauszeigers
+    // der Raycaster wird innerhalb des Animations-Loops mit den jeweils aktuellen
+    // Koordinaten neu gesetzt (siehe unten)
+    mousemove.normalizedMouse.x = ( e.clientX / window.innerWidth ) * 2 - 1;
+	mousemove.normalizedMouse.y = - ( e.clientY / window.innerHeight ) * 2 + 1;
 });
 
 window.addEventListener('scroll', (e) => {
     object.position.z = window.scrollY * .0009;
 })
 
+const orig = {
+    x: object.scale.x,
+    y: object.scale.y,
+    z: object.scale.z
+};
+
+const objectPlanet = object;
+// Raycast passiert nur bei Mausklick
+document.addEventListener('click', (e) => {
+    // der Raycaster gibt ein Array mit den vom Strahl getroffenen
+    // Objekten zurück. Dieses Array ist leer (Länge == 0), wenn 
+    // keine Objekte getroffen wurden.
+    let intersects = raycaster.intersectObjects( scene.children ); 
+    // Alle Elemente in der Szene. Klick auf den LightHelper logged bspw. diesen.
+    // Statt scene.children kann auch ein Array relevanter Objekte angegeben werden: [ objectPlanet ]
+
+    if (intersects.length > 0) {
+        let planet = intersects[0].object;
+        console.log("Klick ", planet);
+    } else {
+        console.log("No intersections.");
+    }
+})
+
+// Raycast-event bei gedrückt gehaltener Maustaste
+document.addEventListener('mousedown', (e) => {
+    // der Raycaster gibt ein Array mit den vom Strahl getroffenen
+    // Objekten zurück. Dieses Array ist leer (Länge == 0), wenn 
+    // keine Objekte getroffen wurden.
+    let intersects = raycaster.intersectObjects( scene.children );
+
+    if (intersects.length > 0) {
+        //let planet = intersects[0].object;
+        //console.log("Mousedown ", planet);
+        // Skaliert die Größe des Objekts hoch
+        //planet.scale.x = orig.x * 1.2;
+        //planet.scale.y = orig.y * 1.2;
+        //planet.scale.z = orig.z * 1.2;
+    }
+})
+
+document.addEventListener('mouseup', (e) => {
+    // Setzt die Größe des Planeten auf den Anfangswert
+    // sobald die Maustaste nicht mehr gehalten wird
+    //object.scale.x = orig.x;
+    //object.scale.y = orig.y;
+    //object.scale.z = orig.z;
+})
+
+const raycaster = new THREE.Raycaster();
 const clock = new THREE.Clock()
 
 const tick = () =>
@@ -245,8 +312,12 @@ const tick = () =>
     // Update Orbital Controls
     //controls.update()
 
-   
-
+    // Raycaster
+    // hier wird der Raycaster mit den jeweils aktuellen Mauskoordinaten
+    // aktualisiert, so dass der Strahl von der korrekten Position
+    // geschossen wird
+    raycaster.setFromCamera( mousemove.normalizedMouse, camera );
+	
     // Render
     renderer.render(scene, camera)
 
